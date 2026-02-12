@@ -1,1 +1,19 @@
 # react-pizza
+
+React Pizza v2
+
+📝 Полный стек:
+ReactJS 18
+TypeScript
+Redux Toolkit (хранение данных / пицц)
+React Router v6 (навигация)
+Axios + Fetch (отправка запроса на бэкенд)
+React Hooks (хуки)
+Prettier (форматирование кода)
+CSS-Modules / SCSS (стилизация)
+React Content Loader (скелетон)
+React Pagination (пагинация)
+Lodash.Debounce
+Code Splitting, React Loadable, useWhyDidYouUpdate
+
+[Archakov Blog](https://www.youtube.com/watch?v=_UywBskWJ7Q&t=4s)
