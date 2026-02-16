@@ -3,7 +3,7 @@ function PizzaBlock({title, price}) {
   const [pizzaCount, setPizzaCount] = React.useState(0);
 
   const onClickAdd = () => {
-    setPizzaCount(pizzaCount + 1);
+    setPizzaCount(pizzaCount => pizzaCount + 1);
   };
   
   return (
