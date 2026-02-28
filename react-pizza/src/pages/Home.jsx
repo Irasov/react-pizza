@@ -1,4 +1,5 @@
 import React from "react";
+import {useDispatch, useSelector} from 'react-redux'
 
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
@@ -6,20 +7,27 @@ import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from "../components/Pagination";
 import { SearchContext } from "../App";
+import { setCategoryId } from "../redux/slices/filterSlice";
 
  const Home = () => {
+  const dispath = useDispatch();
+  //const categoryId = useSelector((state) => state.filter.categoryId);
+  //const sortType = useSelector((state) => state.filter.sort.sortProperty);
+  //ниже сокращенная запись
+  const {categoryId, sort} = useSelector((state) => state.filter);
+
   const{searchValue} = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [categoryId, setCategoryId] = React.useState(0);
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [sortType, setSortType] = React.useState(
-    {name: 'популярности', sortProperty: 'rating'}
-  );
+
+  const onChangeCategory = (id) => {
+    dispath(setCategoryId(id));
+  }
   React.useEffect(() => {
     setIsLoading(true); 
-    const sortBy = sortType.sortProperty.replace('-','');
-    const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
+    const sortBy = sort.sortProperty.replace('-','');
+    const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
     const category = categoryId > 0 ? `category=${categoryId}`: '';
     const search = searchValue ? `&search=${searchValue}` : '';
     fetch(
@@ -31,7 +39,7 @@ import { SearchContext } from "../App";
         setIsLoading(false);
       });
       window.scrollTo(0, 0);
-  }, [categoryId, sortType, searchValue, currentPage]);
+  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
   const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)
   const skeletons = [...new Array(4)].map((_, index) => <Skeleton key={index} />)
@@ -39,8 +47,8 @@ import { SearchContext } from "../App";
   return (
     <div className="container">
       <div className="content__top">
-        <Categories  value={categoryId} onChangeCategory={(id) => setCategoryId(id)}/>
-        <Sort value={sortType} onChangeSort={(id) => setSortType(id)}/>
+        <Categories  value={categoryId} onChangeCategory={(id) => onChangeCategory(id)}/>
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
