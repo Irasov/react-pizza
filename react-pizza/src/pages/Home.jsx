@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux'
 
 import Categories from '../components/Categories';
@@ -30,15 +31,16 @@ import { setCategoryId } from "../redux/slices/filterSlice";
     const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
     const category = categoryId > 0 ? `category=${categoryId}`: '';
     const search = searchValue ? `&search=${searchValue}` : '';
-    fetch(
-      `https://67ee8820c11d5ff4bf79f1be.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
+
+    axios.get(`
+      https://67ee8820c11d5ff4bf79f1be.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
     )
-      .then((res) => res.json())
-      .then((arr) => {
-        setItems(arr);
-        setIsLoading(false);
-      });
-      window.scrollTo(0, 0);
+    .then(response => {
+      setItems(response.data);
+      setIsLoading(false);
+    });
+    
+    window.scrollTo(0, 0);
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
   const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)
