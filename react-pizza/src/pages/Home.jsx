@@ -8,23 +8,27 @@ import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from "../components/Pagination";
 import { SearchContext } from "../App";
-import { setCategoryId } from "../redux/slices/filterSlice";
+import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
 
- const Home = () => {
+const Home = () => {
   const dispath = useDispatch();
   //const categoryId = useSelector((state) => state.filter.categoryId);
   //const sortType = useSelector((state) => state.filter.sort.sortProperty);
   //ниже сокращенная запись
-  const {categoryId, sort} = useSelector((state) => state.filter);
+  const {categoryId, sort, currentPage} = useSelector((state) => state.filter);
 
   const{searchValue} = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [currentPage, setCurrentPage] = React.useState(1);
 
   const onChangeCategory = (id) => {
     dispath(setCategoryId(id));
   }
+  const onChangePage = number => {
+    dispath(setCurrentPage(number));
+  }
+
+
   React.useEffect(() => {
     setIsLoading(true); 
     const sortBy = sort.sortProperty.replace('-','');
@@ -56,7 +60,7 @@ import { setCategoryId } from "../redux/slices/filterSlice";
       <div className="content__items">
         {isLoading ? skeletons : pizzas}
       </div>
-      < Pagination  onChangePage={number => setCurrentPage(number)}/>
+      < Pagination currentPage={currentPage} onChangePage={onChangePage}/>
     </div>
   )
 }
