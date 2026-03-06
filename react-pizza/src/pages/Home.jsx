@@ -11,6 +11,7 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from "../components/Pagination";
 import { SearchContext } from "../App";
 import { setCategoryId, setCurrentPage, setFilters } from "../redux/slices/filterSlice";
+import { setItems } from '../redux/slices/pizzaSlice';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -20,10 +21,10 @@ const Home = () => {
   //const categoryId = useSelector((state) => state.filter.categoryId);
   //const sortType = useSelector((state) => state.filter.sort.sortProperty);
   //ниже сокращенная запись
+  const items = useSelector((state) => state.pizza.items);
   const {categoryId, sort, currentPage} = useSelector((state) => state.filter);
 
   const{searchValue} = React.useContext(SearchContext);
-  const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   const onChangeCategory = (id) => {
@@ -51,10 +52,10 @@ const Home = () => {
       //   console.error(err);
       // });
       try {
-        const res = await axios.get(`
+        const {data} = await axios.get(`
           https://67ee8820c11d5ff4bf79f1be.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
         );
-        setItems(res.data);
+        dispath(setItems(data));
       } catch (err) {
           console.error(err);
       } finally {
