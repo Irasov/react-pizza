@@ -32,21 +32,36 @@ const Home = () => {
   const onChangePage = number => {
     dispath(setCurrentPage(number));
   }
-  const fetchPizzas = () =>{
+  const fetchPizzas = async () =>{
     setIsLoading(true); 
       const sortBy = sort.sortProperty.replace('-','');
       const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
       const category = categoryId > 0 ? `category=${categoryId}`: '';
       const search = searchValue ? `&search=${searchValue}` : '';
 
-      axios.get(`
-        https://67ee8820c11d5ff4bf79f1be.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
-      )
-      .then(response => {
-        setItems(response.data);
+      // await axios.get(`
+      //   https://67ee8820c11d5ff4bf79f1be.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
+      // )
+      // .then(response => {
+      //   setItems(response.data);
+      //   setIsLoading(false);
+      // })
+      // .catch((err) => {
+      //   setIsLoading(false);
+      //   console.error(err);
+      // });
+      try {
+        const res = await axios.get(`
+          https://67ee8820c11d5ff4bf79f1be.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
+        );
+        setItems(res.data);
+      } catch (err) {
+          console.error(err);
+      } finally {
         setIsLoading(false);
-      });
-  }
+      }
+  };
+
 //Если был уже первый рендер и произошли изменения параметров то вшивай параметры в адресную строчку 
   React.useEffect(() => {
     if(isMounted.current) {
