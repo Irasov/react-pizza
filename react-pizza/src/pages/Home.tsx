@@ -11,7 +11,7 @@ import Pagination from "../components/Pagination";
 import { selecFilter, setCategoryId, setCurrentPage, setFilters } from "../redux/slices/filterSlice";
 import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
 
-const Home = () => {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispath = useDispatch();
   const isSearch = React.useRef(false);
@@ -19,23 +19,25 @@ const Home = () => {
   const {items, status} = useSelector(selectPizzaData );
   const {categoryId, sort, currentPage, searchValue} = useSelector(selecFilter);
 
-  const onChangeCategory = (id) => {
-    dispath(setCategoryId(id));
+  const onChangeCategory = (idx: number) => {
+    dispath(setCategoryId(idx));
   }
-  const onChangePage = number => {
-    dispath(setCurrentPage(number));
+  const onChangePage = (page: number) => {
+    dispath(setCurrentPage(page));
   }
   const getPizzas = async () =>{
       const sortBy = sort.sortProperty.replace('-','');
       const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
       const category = categoryId > 0 ? `category=${categoryId}`: '';
       const search = searchValue ? `&search=${searchValue}` : '';
-      dispath(fetchPizzas({
-        sortBy,
-        order,
-        category,
-        search,
-        currentPage
+      dispath(
+        //@ts-ignore
+        fetchPizzas({
+          sortBy,
+          order,
+          category,
+          search,
+          currentPage
       }));
   };
 
@@ -76,13 +78,13 @@ const Home = () => {
     isSearch.current = false;
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)
+  const pizzas = items.map((obj:any) => <PizzaBlock key={obj.id} {...obj} />)
   const skeletons = [...new Array(4)].map((_, index) => <Skeleton key={index} />)
 
   return (
     <div className="container">
       <div className="content__top">
-        <Categories  value={categoryId} onChangeCategory={(id) => onChangeCategory(id)}/>
+        <Categories  value={categoryId} onChangeCategory={(id: number) => onChangeCategory(id)}/>
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
