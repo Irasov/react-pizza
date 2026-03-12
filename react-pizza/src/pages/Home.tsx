@@ -1,6 +1,6 @@
 import React from 'react';
 import qs from 'qs'
-import {useDispatch, useSelector} from 'react-redux'
+import { useSelector} from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 
 import Categories from '../components/Categories';
@@ -10,10 +10,12 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from "../components/Pagination";
 import { selecFilter, setCategoryId, setCurrentPage, setFilters } from "../redux/slices/filterSlice";
 import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
+import { useAppDispatch } from '../redux/store';
+import { SearchPizzasParams } from '../redux/slices/pizzaSlice';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const dispath = useDispatch();
+  const dispath = useAppDispatch();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
   const {items, status} = useSelector(selectPizzaData );
@@ -31,13 +33,12 @@ const Home: React.FC = () => {
       const category = categoryId > 0 ? `category=${categoryId}`: '';
       const search = searchValue ? `&search=${searchValue}` : '';
       dispath(
-        //@ts-ignore
         fetchPizzas({
           sortBy,
           order,
           category,
           search,
-          currentPage
+          currentPage: String(currentPage)
       }));
   };
 
@@ -57,12 +58,14 @@ const Home: React.FC = () => {
   //Если был первый рендер, то проверяем URL-параметры и сохр. в Redux
   React.useEffect(() => {
     if(window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
-      const sort = sortList.find(obj => obj.sortProperty === params.sortProperty);
+      const params = qs.parse(window.location.search.substring(1)) as unknown as SearchPizzasParams;
+      const sort = sortList.find(obj => obj.sortProperty === params.sortBy);
       dispath(
         setFilters({
-          ...params,
-          sort
+          searchValue: params.search,
+          categoryId: Number(params.category),
+          currentPage: Number(params.currentPage),
+          sort: sort || sortList[0],
         })
       );
       isSearch.current = true;
