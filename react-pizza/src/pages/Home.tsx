@@ -21,9 +21,10 @@ const Home: React.FC = () => {
   const {items, status} = useSelector(selectPizzaData );
   const {categoryId, sort, currentPage, searchValue} = useSelector(selecFilter);
 
-  const onChangeCategory = (idx: number) => {
+  const onChangeCategory =  React.useCallback((idx: number) => {
     dispath(setCategoryId(idx));
-  }
+  }, []);
+  
   const onChangePage = (page: number) => {
     dispath(setCurrentPage(page));
   }
@@ -88,7 +89,7 @@ const Home: React.FC = () => {
     <div className="container">
       <div className="content__top">
         <Categories  value={categoryId} onChangeCategory={(id: number) => onChangeCategory(id)}/>
-        <Sort />
+        <Sort value={sort} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {
