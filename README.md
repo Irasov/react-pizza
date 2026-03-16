@@ -1,4 +1,4 @@
-# 🍕 React Pizza v2 (REMASTERED) 🍕
+# 🍕 [React Pizza v2 (REMASTERED) 🍕] (https://www.youtube.com/watch?v=_UywBskWJ7Q&list=PL0FGkDGJQjJG9eI85xM1_iLIf6BcEdaNl)
 
 Это обновлённый курс на 2022 год, одного из [самых популярных курсов](https://www.youtube.com/watch?v=bziVFvq8cLQ&list=PL0FGkDGJQjJFMRmP7wZ771m1Nx-m2_qXq) по ReactJS для начинающих.
 
