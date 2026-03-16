@@ -2,12 +2,8 @@ import React from 'react';
 import qs from 'qs'
 import { useSelector} from 'react-redux'
 import { useNavigate } from 'react-router-dom';
-
-import Categories from '../components/Categories';
-import Sort, { sortList } from '../components/Sort';
-import PizzaBlock from '../components/PizzaBlock';
-import Skeleton from '../components/PizzaBlock/Skeleton';
-import Pagination from "../components/Pagination";
+import { sortList } from '../components/Sort';
+import { Categories, SortPopup as Sort, PizzaBlock, Skeleton, Pagination } from '../components';
 import { setCategoryId, setCurrentPage, setFilters } from "../redux/filter/slice"
 import { selecFilter } from '../redux/filter/selectors';
 import { fetchPizzas } from '../redux/pizza/asyncActions';
