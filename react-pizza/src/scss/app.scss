@@ -115,6 +115,11 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    @media(max-width:443.98px) {
+      flex-wrap: wrap;
+      row-gap: 20px;
+      justify-content: center;
+    }  
   }
 
   .content__title {
@@ -176,12 +181,22 @@ body {
     border-top: 1px solid $gray-line;
     padding-top: 30px;
     margin-top: 30px;
+    @media(max-width:859.98px) {
+      column-gap: 10px;
+      row-gap: 20px;
+      flex-wrap: wrap;
+    }
 
     &-img {
       display: flex;
       align-items: center;
       margin-right: 15px;
       width: 10%;
+      @media(max-width:859.98px) {
+        margin: 0 0;
+        flex: 0 0 80px;
+      }  
+
 
       img {
         width: 80px;
@@ -194,6 +209,9 @@ body {
       flex-direction: column;
       justify-content: center;
       width: 40%;
+      @media(max-width:859.98px) {
+        flex: 0 1 40%;
+      }  
 
       h3 {
         font-weight: bold;
@@ -213,6 +231,12 @@ body {
       align-items: center;
       justify-content: space-between;
       width: 13%;
+      @media(max-width:859.98px) {
+        flex: 0 1 13%;
+      }
+      @media(max-width:349.98px) {
+        flex: 0 0 100px;
+      }    
 
       &-minus {
         svg {
@@ -246,6 +270,9 @@ body {
       align-items: center;
       justify-content: center;
       width: 33%;
+      @media(max-width:859.98px) {
+        flex: 0 1 33%;
+      }  
 
       b {
         font-weight: bold;
@@ -353,7 +380,7 @@ body {
 
   &--empty {
     margin: 80px auto;
-    width: 620px;
+    max-width: 620px;
     text-align: center;
 
     h2 {
@@ -376,7 +403,7 @@ body {
 
     img {
       display: block;
-      width: 300px;
+      max-width: 300px;
       margin: 45px auto 60px;
     }
 
