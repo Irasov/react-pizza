@@ -63,3 +63,5 @@
 [pizzas.json](https://gist.github.com/Archakov06/0421a3edb0ec6f4fc907a6fed3eb5433)
 
 > 💡 Если каких-то ссылок или материалов не будет хватать в этой странице, пишите в комментариях к видео, чтобы я обновил информацию.
+
+[Deploy](https://irasov.github.io/react-pizza/)
